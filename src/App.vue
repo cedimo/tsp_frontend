@@ -1,28 +1,33 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+    <v-app>
+        <v-main>
+            <Map />
+            <CalculateRouteButton absolute top right />
+        </v-main>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Map from './components/Map.vue'
+import CalculateRouteButton from './components/CalculateRouteButton.vue'
 
 export default {
-  name: "App",
-  components: {
-    HelloWorld,
-  },
-};
+    name: 'App',
+
+    components: {
+        Map,
+        CalculateRouteButton,
+    },
+
+    data: () => ({
+        //
+    }),
+}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+/* removes scrollbar when not needed */
+html {
+    overflow-y: auto !important;
 }
 </style>
