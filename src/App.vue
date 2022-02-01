@@ -2,6 +2,7 @@
     <v-app>
         <v-main>
             <Map />
+            <SearchField />
             <CalculateRouteButton absolute top right />
         </v-main>
     </v-app>
@@ -10,6 +11,7 @@
 <script>
 import Map from './components/Map.vue'
 import CalculateRouteButton from './components/CalculateRouteButton.vue'
+import SearchField from '@/components/SearchField'
 
 export default {
     name: 'App',
@@ -17,6 +19,7 @@ export default {
     components: {
         Map,
         CalculateRouteButton,
+        SearchField,
     },
 
     data: () => ({

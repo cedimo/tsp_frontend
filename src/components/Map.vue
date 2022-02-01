@@ -35,7 +35,9 @@ export default {
             source: new XYZ({
                 url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png',
                 attributions:
-                    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+                    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, ' +
+                    '&copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, ' +
+                    '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
             }),
         })
 
