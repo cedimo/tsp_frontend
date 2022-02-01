@@ -144,6 +144,13 @@ export default {
     height: 100%;
 }
 
+/* styling for openlayers buttons */
+.ol-control button {
+    background-color: var(--v-primary-base);
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
 /* TODO: decide if zoom control is necessary */
 /* move zoom control to lower right */
 .ol-zoom {
