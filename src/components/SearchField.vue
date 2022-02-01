@@ -129,6 +129,5 @@ export default {
 <style scoped>
 .search-field {
     max-width: 400px;
-    margin: 10px !important;
 }
 </style>

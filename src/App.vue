@@ -4,6 +4,8 @@
             <Map />
             <SearchField />
             <CalculateRouteButton absolute top right />
+            <RecommendationCard index="0" />
+            <RecommendationCard index="1" />
         </v-main>
     </v-app>
 </template>
@@ -12,19 +14,17 @@
 import Map from './components/Map.vue'
 import CalculateRouteButton from './components/CalculateRouteButton.vue'
 import SearchField from '@/components/SearchField'
+import RecommendationCard from '@/components/RecommendationCard'
 
 export default {
     name: 'App',
 
     components: {
+        RecommendationCard,
         Map,
         CalculateRouteButton,
         SearchField,
     },
-
-    data: () => ({
-        //
-    }),
 }
 </script>
 
