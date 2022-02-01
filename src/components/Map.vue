@@ -22,8 +22,8 @@ export default {
     name: 'Map',
     mounted() {
         // popup
-        var popupContainer = this.$refs['popup']
-        var popupOverlay = new Overlay({
+        const popupContainer = this.$refs['popup']
+        const popupOverlay = new Overlay({
             element: popupContainer,
             autoPan: true,
             autoPanAnimation: {
@@ -141,18 +141,17 @@ export default {
     width: 100%;
     height: 100%;
 }
-/* styling for openlayers buttons */
-.ol-control button {
-    width: 24px;
-    height: 24px;
-}
+
+/* TODO: decide if zoom control is necessary */
 /* move zoom control to lower right */
 .ol-zoom {
+    /*visibility: hidden;*/
     left: unset;
     top: unset;
     right: 8px;
     bottom: 40px;
 }
+
 /* style for popup */
 .ol-popup {
     position: absolute;
@@ -164,14 +163,16 @@ export default {
     left: -50px;
     min-width: 200px;
 }
-.ol-popup:after,
-.ol-popup:before {
-    top: 100%;
-    border: solid transparent;
-    content: '';
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-}
+
+/* TODO: do we need this? */
+/*.ol-popup:after,*/
+/*.ol-popup:before {*/
+/*    top: 100%;*/
+/*    border: solid transparent;*/
+/*    content: '';*/
+/*    height: 0;*/
+/*    width: 0;*/
+/*    position: absolute;*/
+/*    pointer-events: none;*/
+/*}*/
 </style>
