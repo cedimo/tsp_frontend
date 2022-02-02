@@ -10,13 +10,13 @@ import 'ol/ol.css'
 import Map from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
-//import OSM from 'ol/source/OSM'
 import { fromLonLat, transformExtent } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
-import { Icon, Style, Stroke } from 'ol/style'
+import { Icon, Stroke, Style } from 'ol/style'
 import XYZ from 'ol/source/XYZ'
 import Overlay from 'ol/Overlay'
+import { store } from '@/store'
 
 export default {
     name: 'Map',
@@ -52,9 +52,7 @@ export default {
             }),
         })
 
-        const recommendations_source = new VectorSource({
-            features: [],
-        })
+        const recommendations_source = store.state.recommendationFeatures
 
         const recommendations_layer = new VectorLayer({
             source: recommendations_source,
@@ -72,9 +70,7 @@ export default {
             }),
         })
 
-        const search_source = new VectorSource({
-            features: [],
-        })
+        const search_source = store.state.searchFeatures
 
         const search_layer = new VectorLayer({
             source: search_source,
@@ -117,6 +113,7 @@ export default {
             maxZoom: 20,
             constrainResolution: true,
         })
+        store.commit('initializeMapView', mannheim_view)
 
         const map = new Map({
             target: this.$refs['map'],
@@ -130,8 +127,8 @@ export default {
             overlays: [popupOverlay],
         })
 
-        map.on('click', function (evt) {
-            popupOverlay.setPosition(map.getCoordinateFromPixel(evt.pixel))
+        map.on('click', event => {
+            popupOverlay.setPosition(map.getCoordinateFromPixel(event.pixel))
         })
     },
 }
@@ -151,10 +148,8 @@ export default {
     border-radius: 15px;
 }
 
-/* TODO: decide if zoom control is necessary */
 /* move zoom control to lower right */
 .ol-zoom {
-    /*visibility: hidden;*/
     left: unset;
     top: unset;
     right: 8px;
@@ -173,15 +168,15 @@ export default {
     min-width: 200px;
 }
 
-/* TODO: do we need this? */
-/*.ol-popup:after,*/
-/*.ol-popup:before {*/
-/*    top: 100%;*/
-/*    border: solid transparent;*/
-/*    content: '';*/
-/*    height: 0;*/
-/*    width: 0;*/
-/*    position: absolute;*/
-/*    pointer-events: none;*/
-/*}*/
+/* TODO: do we need this? -> popup custom css*/
+.ol-popup:after,
+.ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
 </style>

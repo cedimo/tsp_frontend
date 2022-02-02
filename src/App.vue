@@ -4,8 +4,8 @@
             <Map />
             <SearchField />
             <CalculateRouteButton absolute top right />
-            <RecommendationCard index="0" />
-            <RecommendationCard index="1" />
+            <RecommendationCard :index="0" />
+            <RecommendationCard :index="1" />
         </v-main>
     </v-app>
 </template>

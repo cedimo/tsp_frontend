@@ -13,10 +13,8 @@
 
 <script>
 import GeoJSON from 'ol/format/GeoJSON'
-import Feature from 'ol/Feature'
-import Point from 'ol/geom/Point'
-import { fromLonLat } from 'ol/proj'
 import { store } from '@/store'
+import { fromLonLat } from 'ol/proj'
 
 export default {
     name: 'SearchField',
@@ -65,20 +63,19 @@ export default {
 
             // checken, ob Query Ergebnis liefert
             // wenn nicht, Fehlermeldung für 3s
-            // TODO: check if theres a better way to check for empty result
-            if (features == '') {
+            if (features.length === 0) {
                 throw 'Keine Ergebnisse für gesuchten Ort'
             }
 
             const first_result = features[0]
-            const coord = first_result.getGeometry().getCoordinates()
+            const coords = first_result.getGeometry().getCoordinates()
 
             // checken, ob Ergebnis außerhalb Region liegt
             if (
-                coord[0] > 8.763680406565726 ||
-                coord[0] < 8.254876112965539 ||
-                coord[1] > 49.60908933136416 ||
-                coord[1] < 49.36241310691181
+                coords[0] > 8.763680406565726 ||
+                coords[0] < 8.254876112965539 ||
+                coords[1] > 49.60908933136416 ||
+                coords[1] < 49.36241310691181
             ) {
                 throw 'Suchergebnis außerhalb der Region'
             }
@@ -95,25 +92,14 @@ export default {
                 }, '')
                 .trim()
 
-            this.addFeature(featureName, coord)
+            store.commit('addSearchFeature', {
+                name: featureName,
+                coords: coords,
+            })
+            store.commit('setMapCenter', fromLonLat(coords))
 
             // clear input field
             this.input = ''
-        },
-
-        // TODO: add feature to overlay/features in store
-        // TODO: unique identifier
-        addFeature(name, coord) {
-            // neues Feature erstellen
-            const feature = new Feature({
-                name: name,
-                geometry: new Point(fromLonLat(coord)),
-                recommendation: false,
-                id: 42,
-            })
-
-            // TODO: Feature zu Karte hinzufügen
-            store.commit('addSearchFeature', feature)
         },
 
         // TODO: error handling

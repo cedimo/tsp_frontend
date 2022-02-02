@@ -1,10 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VectorSource from 'ol/source/Vector'
+import Point from 'ol/geom/Point'
+import Feature from 'ol/Feature'
+import { fromLonLat } from 'ol/proj'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
+        mapView: undefined,
         recommendations: [
             {
                 name: 'DHBW Mannheim',
@@ -97,13 +102,66 @@ export const store = new Vuex.Store({
                 selected: false,
             },
         ],
+        recommendationFeatures: new VectorSource(),
+        searchFeatures: new VectorSource(),
     },
+
     mutations: {
         toggleRecommendation(state, index) {
             const recommendation = state.recommendations[index]
             recommendation.selected = !recommendation.selected
+
+            if (recommendation.selected) {
+                state.recommendationFeatures.addFeature(recommendation.feature)
+
+                store.commit(
+                    'setMapCenter',
+                    fromLonLat([
+                        recommendation.coords.lon,
+                        recommendation.coords.lat,
+                    ])
+                )
+            } else {
+                state.recommendationFeatures.removeFeature(
+                    recommendation.feature
+                )
+            }
+        },
+
+        addSearchFeature(state, payload) {
+            const feature = new Feature({
+                name: payload.name,
+                geometry: new Point(fromLonLat(payload.coords)),
+                id: state.searchFeatures.getFeatures().length,
+            })
+            state.searchFeatures.addFeature(feature)
+        },
+
+        setMapCenter(state, coordinate) {
+            state.mapView.setCenter(coordinate)
+        },
+
+        initializeRecommendations(state) {
+            state.recommendations.forEach(recommendation => {
+                recommendation.feature = new Feature({
+                    name: recommendation.name,
+                    geometry: new Point(
+                        fromLonLat([
+                            recommendation.coords.lon,
+                            recommendation.coords.lat,
+                        ])
+                    ),
+                })
+            })
+            console.log(state.recommendations)
+        },
+
+        initializeMapView(state, view) {
+            state.mapView = view
         },
     },
     actions: {},
     modules: {},
 })
+
+store.commit('initializeRecommendations')
