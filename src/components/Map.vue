@@ -1,7 +1,9 @@
 <template>
     <div>
         <div ref="map" class="map"></div>
-        <div ref="popup" class="ol-popup"></div>
+        <div ref="popup">
+            <MapPopup :feature="popupFeature" />
+        </div>
     </div>
 </template>
 
@@ -17,14 +19,22 @@ import { Icon, Stroke, Style } from 'ol/style'
 import XYZ from 'ol/source/XYZ'
 import Overlay from 'ol/Overlay'
 import { store } from '@/store'
+import MapPopup from '@/components/MapPopup'
+import Feature from 'ol/Feature'
 
 export default {
     name: 'Map',
+    components: { MapPopup },
+    data() {
+        return {
+            popupFeature: new Feature(),
+        }
+    },
     mounted() {
         // popup
-        const popupContainer = this.$refs['popup']
+        const popup = this.$refs['popup']
         const popupOverlay = new Overlay({
-            element: popupContainer,
+            element: popup,
             autoPan: true,
             autoPanAnimation: {
                 duration: 250,
@@ -128,7 +138,22 @@ export default {
         })
 
         map.on('click', event => {
-            popupOverlay.setPosition(map.getCoordinateFromPixel(event.pixel))
+            const feature = map.forEachFeatureAtPixel(
+                event.pixel,
+                clickedFeature => {
+                    return clickedFeature
+                }
+            )
+
+            if (feature) {
+                this.popupFeature = feature
+                const featureCoords = feature.getGeometry().getCoordinates()
+                store.commit('setMapCenter', featureCoords)
+                popupOverlay.setPosition(featureCoords)
+                store.commit('showPopup')
+            } else {
+                store.commit('hidePopup')
+            }
         })
     },
 }
@@ -154,29 +179,5 @@ export default {
     top: unset;
     right: 8px;
     bottom: 40px;
-}
-
-/* style for popup */
-.ol-popup {
-    position: absolute;
-    background-color: white;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #000000;
-    bottom: 12px;
-    left: -50px;
-    min-width: 200px;
-}
-
-/* TODO: do we need this? -> popup custom css*/
-.ol-popup:after,
-.ol-popup:before {
-    top: 100%;
-    border: solid transparent;
-    content: '';
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
 }
 </style>

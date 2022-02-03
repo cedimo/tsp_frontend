@@ -4,8 +4,12 @@
             <Map />
             <SearchField />
             <CalculateRouteButton absolute top right />
-            <RecommendationCard :index="0" />
-            <RecommendationCard :index="1" />
+            <RecommendationCard
+                :recommendation="$store.state.recommendationFeaturePool[0]"
+            />
+            <RecommendationCard
+                :recommendation="$store.state.recommendationFeaturePool[1]"
+            />
         </v-main>
     </v-app>
 </template>
