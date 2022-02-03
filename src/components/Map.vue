@@ -40,7 +40,7 @@ export default {
             },
         })
 
-        const osm_layer = new TileLayer({
+        const osmLayer = new TileLayer({
             source: new XYZ({
                 url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png',
                 attributions:
@@ -51,7 +51,7 @@ export default {
         })
 
         // Style, Source and Layer for Recommendations
-        const recommendations_style = new Style({
+        const recommendationsStyle = new Style({
             image: new Icon({
                 scale: 0.8,
                 anchor: [0.5, 42],
@@ -61,15 +61,15 @@ export default {
             }),
         })
 
-        const recommendations_source = store.state.recommendationFeatures
+        const recommendationsSource = store.state.recommendationFeatures
 
-        const recommendations_layer = new VectorLayer({
-            source: recommendations_source,
-            style: recommendations_style,
+        const recommendationsLayer = new VectorLayer({
+            source: recommendationsSource,
+            style: recommendationsStyle,
         })
 
         // Style, Source and Layer for Search Results
-        const search_style = new Style({
+        const searchStyle = new Style({
             image: new Icon({
                 scale: 0.8,
                 anchor: [0.5, 42],
@@ -79,26 +79,26 @@ export default {
             }),
         })
 
-        const search_source = store.state.searchFeatures
+        const searchSource = store.state.searchFeatures
 
-        const search_layer = new VectorLayer({
-            source: search_source,
-            style: search_style,
+        const searchLayer = new VectorLayer({
+            source: searchSource,
+            style: searchStyle,
         })
 
         // Style, Source and Layer for final Route
-        const route_style = new Style({
+        const routeStyle = new Style({
             stroke: new Stroke({
                 width: 3,
                 color: [5, 69, 162],
             }),
         })
 
-        const route_source = store.state.routeFeatures
+        const routeSource = store.state.routeFeatures
 
-        const route_layer = new VectorLayer({
-            source: route_source,
-            style: route_style,
+        const routeLayer = new VectorLayer({
+            source: routeSource,
+            style: routeStyle,
         })
 
         // create View for Mannheim
@@ -114,7 +114,7 @@ export default {
             'EPSG:3857'
         )
 
-        const mannheim_view = new View({
+        const mannheimView = new View({
             center: mannheimCenter,
             zoom: 14,
             extent: mannheimExtent,
@@ -122,17 +122,12 @@ export default {
             maxZoom: 20,
             constrainResolution: true,
         })
-        store.commit('initializeMapView', mannheim_view)
+        store.commit('initializeMapView', mannheimView)
 
         const map = new Map({
             target: this.$refs['map'],
-            layers: [
-                osm_layer,
-                route_layer,
-                recommendations_layer,
-                search_layer,
-            ],
-            view: mannheim_view,
+            layers: [osmLayer, routeLayer, recommendationsLayer, searchLayer],
+            view: mannheimView,
             overlays: [popupOverlay],
         })
 

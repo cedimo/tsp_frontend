@@ -61,8 +61,8 @@ export default {
 
         async getOptimizedRouteFromBackend(coordsToOptimize) {
             if (coordsToOptimize.length < 3) {
-                const error_msg = 'Bitte mindestens 3 Punkte auswählen'
-                store.commit('setError', error_msg)
+                const errorMessage = 'Bitte mindestens 3 Punkte auswählen'
+                store.commit('setError', errorMessage)
                 return
             }
 

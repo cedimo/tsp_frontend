@@ -67,8 +67,8 @@ export default {
                 throw 'Keine Ergebnisse für gesuchten Ort'
             }
 
-            const first_result = features[0]
-            const coords = first_result.getGeometry().getCoordinates()
+            const firstResult = features[0]
+            const coords = firstResult.getGeometry().getCoordinates()
 
             // checken, ob Ergebnis außerhalb Region liegt
             if (
