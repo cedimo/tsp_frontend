@@ -105,6 +105,11 @@ export const store = new Vuex.Store({
         recommendationFeatures: new VectorSource(),
         searchFeatures: new VectorSource(),
         isPopupVisible: false,
+        error: {
+            active: false,
+            message: '',
+            timeout: 3000,
+        },
     },
 
     mutations: {
@@ -150,6 +155,12 @@ export const store = new Vuex.Store({
 
         hidePopup(state) {
             state.isPopupVisible = false
+        },
+
+        // TODO: async error handling for case that multiple errors occur in timeout duration
+        setError(state, error) {
+            state.error.message = error
+            state.error.active = true
         },
 
         initializeRecommendations(state) {

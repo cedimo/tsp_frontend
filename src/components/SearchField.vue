@@ -102,11 +102,8 @@ export default {
             this.input = ''
         },
 
-        // TODO: error handling
         handleError(error) {
-            alert(error)
-            // this.search_error = true
-            // setTimeout(() => (this.search_error = false), 4000)
+            store.commit('setError', error)
         },
     },
 }

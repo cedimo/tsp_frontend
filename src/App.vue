@@ -10,6 +10,14 @@
             <RecommendationCard
                 :recommendation="$store.state.recommendationFeaturePool[1]"
             />
+            <v-snackbar
+                v-model="$store.state.error.active"
+                :timeout="$store.state.error.timeout"
+                top
+                color="error"
+            >
+                {{ $store.state.error.message }}
+            </v-snackbar>
         </v-main>
     </v-app>
 </template>
