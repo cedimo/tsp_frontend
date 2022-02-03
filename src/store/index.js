@@ -104,6 +104,7 @@ export const store = new Vuex.Store({
         ],
         recommendationFeatures: new VectorSource(),
         searchFeatures: new VectorSource(),
+        routeFeatures: new VectorSource(),
         isPopupVisible: false,
         error: {
             active: false,
@@ -114,6 +115,7 @@ export const store = new Vuex.Store({
 
     mutations: {
         addRecommendationFeature(state, recommendation) {
+            store.commit('clearRouteFeatures')
             recommendation.set('selected', true)
             state.recommendationFeatures.addFeature(recommendation)
 
@@ -127,11 +129,13 @@ export const store = new Vuex.Store({
         },
 
         removeRecommendationFeature(state, recommendation) {
+            store.commit('clearRouteFeatures')
             recommendation.set('selected', false)
             state.recommendationFeatures.removeFeature(recommendation)
         },
 
         addSearchFeature(state, payload) {
+            store.commit('clearRouteFeatures')
             const feature = new Feature({
                 name: payload.name,
                 isRecommendation: false,
@@ -142,7 +146,17 @@ export const store = new Vuex.Store({
         },
 
         removeSearchFeature(state, feature) {
+            store.commit('clearRouteFeatures')
             state.searchFeatures.removeFeature(feature)
+        },
+
+        clearRouteFeatures(state) {
+            state.routeFeatures.clear()
+        },
+
+        setRouteFeature(state, feature) {
+            store.commit('clearRouteFeatures')
+            state.routeFeatures.addFeature(feature)
         },
 
         setMapCenter(state, coordinate) {
@@ -191,4 +205,3 @@ export const store = new Vuex.Store({
 })
 
 store.commit('initializeRecommendations')
-console.log(store.state.recommendationFeaturePool)

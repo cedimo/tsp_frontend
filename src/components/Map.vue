@@ -13,7 +13,6 @@ import Map from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
 import { fromLonLat, transformExtent } from 'ol/proj'
-import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import { Icon, Stroke, Style } from 'ol/style'
 import XYZ from 'ol/source/XYZ'
@@ -95,7 +94,7 @@ export default {
             }),
         })
 
-        const route_source = new VectorSource()
+        const route_source = store.state.routeFeatures
 
         const route_layer = new VectorLayer({
             source: route_source,

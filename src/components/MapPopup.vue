@@ -21,7 +21,6 @@ export default {
         removeFeature() {
             store.commit('hidePopup')
             if (this.feature.get('isRecommendation')) {
-                console.log('hey')
                 store.commit('removeRecommendationFeature', this.feature)
             } else {
                 store.commit('removeSearchFeature', this.feature)
