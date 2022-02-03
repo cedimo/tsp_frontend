@@ -1,5 +1,6 @@
+<!--TODO: popup positioning-->
 <template>
-    <v-card v-if="$store.state.isPopupVisible" class="card pa-2">
+    <v-card v-if="$store.state.isPopupVisible" class="pa-3 card">
         <v-card-title> {{ feature.get('name') }} </v-card-title>
         <v-btn @click="removeFeature">Entfernen</v-btn>
     </v-card>
