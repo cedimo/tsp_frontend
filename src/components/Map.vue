@@ -138,7 +138,7 @@ export default {
                     return clickedFeature
                 }
             )
-
+            // TODO: Check if feature is a Marker/Point (and not the route)
             if (feature) {
                 this.popupFeature = feature
                 const featureCoords = feature.getGeometry().getCoordinates()

@@ -4,21 +4,22 @@
 
         <div class="main">
             <div class="search-field-and-calculate-route-button-container">
-                <SearchField class="clickable" />
+                <SearchField class="clickable mr-2" />
                 <CalculateRouteButton class="clickable" />
             </div>
 
-            <!--TODO: add horizontal slider for mobile view-->
-            <div class="recommendations-scroll-container clickable">
-                <vue-scroll>
-                    <RecommendationCard
-                        v-for="(recommendation, index) in $store.state
-                            .recommendationFeaturePool"
-                        :key="index"
-                        :recommendation="recommendation"
-                        class="recommendation-card"
-                    />
-                </vue-scroll>
+            <div
+                v-if="$mq === 'desktop'"
+                class="recommendations-scroll-container clickable"
+            >
+                <RecommendationScroll />
+            </div>
+
+            <div
+                v-if="$mq === 'mobile'"
+                class="recommendations-slide-container clickable"
+            >
+                <RecommendationSlider />
             </div>
         </div>
 
@@ -37,13 +38,15 @@
 import Map from './components/Map.vue'
 import CalculateRouteButton from './components/CalculateRouteButton.vue'
 import SearchField from '@/components/SearchField'
-import RecommendationCard from '@/components/RecommendationCard'
+import RecommendationScroll from '@/components/groups/RecommendationScroll'
+import RecommendationSlider from '@/components/groups/RecommendationSlider'
 
 export default {
     name: 'App',
 
     components: {
-        RecommendationCard,
+        RecommendationSlider,
+        RecommendationScroll,
         Map,
         CalculateRouteButton,
         SearchField,
@@ -64,6 +67,7 @@ html {
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     padding: 12px;
 }
 
@@ -81,8 +85,11 @@ html {
     width: fit-content;
 }
 
-.recommendation-card + .recommendation-card {
-    margin-top: 12px;
-    margin-right: 12px;
+.recommendations-slide-container {
+    overflow: auto;
+    transform: rotateX(180deg);
+}
+::-webkit-scrollbar {
+    display: none;
 }
 </style>

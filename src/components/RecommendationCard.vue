@@ -1,5 +1,5 @@
 <template>
-    <v-card max-width="400">
+    <v-card class="recommendation-card">
         <v-img height="150" :src="recommendation.get('imgSrc')"></v-img>
 
         <div class="d-flex align-center justify-space-between pa-2">
@@ -49,6 +49,11 @@ export default {
 </script>
 
 <style scoped>
+.recommendation-card {
+    width: 400px;
+    height: fit-content;
+}
+
 .recommendation-button {
     width: 130px;
 }
