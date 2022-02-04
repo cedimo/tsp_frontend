@@ -1,3 +1,4 @@
+<!--TODO: add horizontal scroll for small browser window (atm: Shift + Scroll)-->
 <template>
     <div class="slide-container">
         <RecommendationCard
