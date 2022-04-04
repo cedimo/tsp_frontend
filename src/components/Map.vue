@@ -1,7 +1,9 @@
 <template>
     <div>
         <div ref="map" class="map"></div>
-        <div ref="popup" class="ol-popup"></div>
+        <div ref="popup">
+            <MapPopup :feature="popupFeature" />
+        </div>
     </div>
 </template>
 
@@ -10,37 +12,46 @@ import 'ol/ol.css'
 import Map from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
-//import OSM from 'ol/source/OSM'
 import { fromLonLat, transformExtent } from 'ol/proj'
-import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
-import { Icon, Style, Stroke } from 'ol/style'
+import { Icon, Stroke, Style } from 'ol/style'
 import XYZ from 'ol/source/XYZ'
 import Overlay from 'ol/Overlay'
+import { store } from '@/store'
+import MapPopup from '@/components/MapPopup'
+import Feature from 'ol/Feature'
 
 export default {
     name: 'Map',
+    components: { MapPopup },
+    data() {
+        return {
+            popupFeature: new Feature(),
+        }
+    },
     mounted() {
         // popup
-        var popupContainer = this.$refs['popup']
-        var popupOverlay = new Overlay({
-            element: popupContainer,
+        const popup = this.$refs['popup']
+        const popupOverlay = new Overlay({
+            element: popup,
             autoPan: true,
             autoPanAnimation: {
                 duration: 250,
             },
         })
 
-        const osm_layer = new TileLayer({
+        const osmLayer = new TileLayer({
             source: new XYZ({
                 url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png',
                 attributions:
-                    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+                    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, ' +
+                    '&copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, ' +
+                    '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
             }),
         })
 
         // Style, Source and Layer for Recommendations
-        const recommendations_style = new Style({
+        const recommendationsStyle = new Style({
             image: new Icon({
                 scale: 0.8,
                 anchor: [0.5, 42],
@@ -50,17 +61,15 @@ export default {
             }),
         })
 
-        const recommendations_source = new VectorSource({
-            features: [],
-        })
+        const recommendationsSource = store.state.recommendationFeatures
 
-        const recommendations_layer = new VectorLayer({
-            source: recommendations_source,
-            style: recommendations_style,
+        const recommendationsLayer = new VectorLayer({
+            source: recommendationsSource,
+            style: recommendationsStyle,
         })
 
         // Style, Source and Layer for Search Results
-        const search_style = new Style({
+        const searchStyle = new Style({
             image: new Icon({
                 scale: 0.8,
                 anchor: [0.5, 42],
@@ -70,28 +79,26 @@ export default {
             }),
         })
 
-        const search_source = new VectorSource({
-            features: [],
-        })
+        const searchSource = store.state.searchFeatures
 
-        const search_layer = new VectorLayer({
-            source: search_source,
-            style: search_style,
+        const searchLayer = new VectorLayer({
+            source: searchSource,
+            style: searchStyle,
         })
 
         // Style, Source and Layer for final Route
-        const route_style = new Style({
+        const routeStyle = new Style({
             stroke: new Stroke({
                 width: 3,
                 color: [5, 69, 162],
             }),
         })
 
-        const route_source = new VectorSource()
+        const routeSource = store.state.routeFeatures
 
-        const route_layer = new VectorLayer({
-            source: route_source,
-            style: route_style,
+        const routeLayer = new VectorLayer({
+            source: routeSource,
+            style: routeStyle,
         })
 
         // create View for Mannheim
@@ -107,7 +114,7 @@ export default {
             'EPSG:3857'
         )
 
-        const mannheim_view = new View({
+        const mannheimView = new View({
             center: mannheimCenter,
             zoom: 14,
             extent: mannheimExtent,
@@ -115,21 +122,33 @@ export default {
             maxZoom: 20,
             constrainResolution: true,
         })
+        store.commit('initializeMapView', mannheimView)
 
         const map = new Map({
             target: this.$refs['map'],
-            layers: [
-                osm_layer,
-                route_layer,
-                recommendations_layer,
-                search_layer,
-            ],
-            view: mannheim_view,
+            layers: [osmLayer, routeLayer, recommendationsLayer, searchLayer],
+            view: mannheimView,
             overlays: [popupOverlay],
         })
 
-        map.on('click', function (evt) {
-            popupOverlay.setPosition(map.getCoordinateFromPixel(evt.pixel))
+        map.on('click', event => {
+            const feature = map.forEachFeatureAtPixel(
+                event.pixel,
+                clickedFeature => {
+                    return clickedFeature
+                }
+            )
+
+            // check if a feature and if it's a Marker/Point (and not the route)
+            if (feature && feature.get('name')) {
+                this.popupFeature = feature
+                const featureCoords = feature.getGeometry().getCoordinates()
+                store.commit('setMapCenter', featureCoords)
+                popupOverlay.setPosition(featureCoords)
+                store.commit('showPopup')
+            } else {
+                store.commit('hidePopup')
+            }
         })
     },
 }
@@ -141,37 +160,19 @@ export default {
     width: 100%;
     height: 100%;
 }
+
 /* styling for openlayers buttons */
 .ol-control button {
-    width: 24px;
-    height: 24px;
+    background-color: var(--v-primary-base);
+    border: 2px solid black;
+    border-radius: 15px;
 }
+
 /* move zoom control to lower right */
 .ol-zoom {
     left: unset;
     top: unset;
     right: 8px;
     bottom: 40px;
-}
-/* style for popup */
-.ol-popup {
-    position: absolute;
-    background-color: white;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #000000;
-    bottom: 12px;
-    left: -50px;
-    min-width: 200px;
-}
-.ol-popup:after,
-.ol-popup:before {
-    top: 100%;
-    border: solid transparent;
-    content: '';
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
 }
 </style>
