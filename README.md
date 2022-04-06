@@ -32,3 +32,15 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Docker
+
+### Build image
+```
+docker build -t username/tsp-frontend .
+```
+
+### Run image
+```
+docker run -it -p 80:80 -d --name tsp-frontend username/tsp-frontend
+```
