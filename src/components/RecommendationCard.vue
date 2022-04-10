@@ -38,6 +38,7 @@ export default {
 
     methods: {
         toggleRecommendation() {
+            store.commit('hidePopup')
             if (this.recommendation.get('selected')) {
                 store.commit('removeRecommendationFeature', this.recommendation)
             } else {

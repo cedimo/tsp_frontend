@@ -89,8 +89,8 @@ export const store = new Vuex.Store({
         initializeRecommendations(state) {
             const mannheimRecommendations = require('../assets/reommendations_mannheim.json')
             state.recommendationFeaturePool = mannheimRecommendations.map(
-                recommendation => {
-                    return new Feature({
+                recommendation =>
+                    new Feature({
                         name: recommendation.name,
                         coords: recommendation.coords,
                         imgSrc: recommendation.imgSrc,
@@ -103,7 +103,6 @@ export const store = new Vuex.Store({
                             ])
                         ),
                     })
-                }
             )
         },
 
