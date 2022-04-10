@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VectorSource from 'ol/source/Vector'
 import Point from 'ol/geom/Point'
+import LineString from 'ol/geom/LineString'
 import Feature from 'ol/Feature'
 import { fromLonLat } from 'ol/proj'
 
@@ -69,7 +70,13 @@ export const store = new Vuex.Store({
         },
 
         setMapCenter(state, coordinate) {
-            state.mapView.setCenter(coordinate)
+            const x = new LineString([coordinate, state.mapView.getCenter()])
+            const adjustedDuration = Math.round(x.getLength() / 10) + 200 //minimum duration of 200 added since very small durations appear strange
+
+            state.mapView.animate({
+                center: coordinate,
+                duration: adjustedDuration,
+            })
         },
 
         showPopup(state) {
