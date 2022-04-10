@@ -16,8 +16,7 @@
                     large
                     class="recommendation-button text-none"
                     :class="{
-                        'primary test white--text':
-                            recommendation.get('selected'),
+                        primary: recommendation.get('selected'),
                     }"
                     :pressed="recommendation.get('selected')"
                     @click="toggleRecommendation(recommendation)"
