@@ -6,7 +6,7 @@
             v-if="$vuetify.breakpoint.mobile"
             class="d-flex align-center justify-space-between pa-2"
         >
-            <v-card-subtitle> {{ recommendation.get('name') }}</v-card-subtitle>
+            <h3> {{ recommendation.get('name') }}</h3>
             <v-btn
                 fab
                 depressed
