@@ -9,14 +9,14 @@
             </div>
 
             <div
-                v-if="$mq === 'desktop'"
+                v-if="$vuetify.breakpoint.xl"
                 class="recommendations-scroll-container clickable"
             >
                 <RecommendationScroll />
             </div>
 
             <div
-                v-if="$mq === 'mobile'"
+                v-if="$vuetify.breakpoint.xs"
                 class="recommendations-slide-container clickable"
             >
                 <RecommendationSlider />

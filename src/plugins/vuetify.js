@@ -4,6 +4,15 @@ import Vuetify from 'vuetify/lib/framework'
 Vue.use(Vuetify)
 
 export default new Vuetify({
+    breakpoint: {
+        thresholds: {
+            xs: 1000,
+            sm: 1000,
+            md: 1000,
+            lg: 1000,
+            // xl breakpoint for bigger devices,
+        },
+    },
     theme: {
         options: { customProperties: true },
         themes: {
