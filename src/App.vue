@@ -3,18 +3,20 @@
         <Map />
 
         <div class="main">
-            <div class="search-field-and-calculate-route-button-container">
-                <SearchField class="clickable mr-2" />
-                <CalculateRouteButton class="clickable" />
+            <div
+                class="search-field-and-calculate-route-button-container mx-3 mt-3"
+            >
+                <SearchField class="clickable" />
+                <CalculateRouteButton class="clickable ml-3" />
             </div>
 
             <div
                 v-if="$vuetify.breakpoint.mobile"
-                class="recommendations-slide-container clickable"
+                class="recommendations-slide-container clickable mb-3"
             >
                 <RecommendationSlider />
             </div>
-            <div v-else class="recommendations-scroll-container clickable">
+            <div v-else class="recommendations-scroll-container clickable ml-3">
                 <RecommendationScroll />
             </div>
         </div>
@@ -64,7 +66,6 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 12px;
 }
 
 .clickable {

@@ -25,6 +25,19 @@ export default {
     flex-direction: row;
     transform: rotateX(180deg);
 }
+
+.recommendation-card {
+    width: 30vh;
+}
+
+.recommendation-card:first-of-type {
+    margin-left: 12px;
+}
+
+.recommendation-card:last-of-type {
+    margin-right: 12px;
+}
+
 .recommendation-card + .recommendation-card {
     margin-left: 12px;
 }

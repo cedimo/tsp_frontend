@@ -157,15 +157,20 @@ export default {
 <style>
 .map {
     position: absolute;
+    top: 0px;
+    left: 0px;
     width: 100%;
     height: 100%;
 }
 
 /* styling for openlayers buttons */
 .ol-control button {
-    background-color: var(--v-primary-base);
-    border: 2px solid black;
-    border-radius: 15px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px !important;
+    width: 24px;
+    height: 24px;
 }
 
 /* move zoom control to lower right */

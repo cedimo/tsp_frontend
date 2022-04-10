@@ -19,6 +19,10 @@ export default {
 </script>
 
 <style scoped>
+.recommendation-card {
+    width: 400px;
+}
+
 .recommendation-card + .recommendation-card {
     margin-top: 12px;
     margin-right: 12px;
