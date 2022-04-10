@@ -75,6 +75,8 @@ html {
 .search-field-and-calculate-route-button-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .recommendations-scroll-container {

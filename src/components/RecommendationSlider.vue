@@ -7,7 +7,7 @@
             class="recommendation-card"
             @click="toggleRecommendation(recommendation)"
         >
-            <v-img height="150" :src="recommendation.get('imgSrc')"></v-img>
+            <v-img height="120" :src="recommendation.get('imgSrc')"></v-img>
             <v-card-title> {{ recommendation.get('name') }}</v-card-title>
 
             <v-overlay absolute :value="recommendation.get('selected')">
