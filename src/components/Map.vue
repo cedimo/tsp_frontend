@@ -59,8 +59,8 @@ export default {
             }),
         })
 
-        // Style, Source and Layer for Recommendations
-        const recommendationsStyle = new Style({
+        // Style, Source and Layer for marker
+        const featureStyle = new Style({
             image: new Icon({
                 scale: 0.8,
                 anchor: [0.5, 42],
@@ -74,25 +74,14 @@ export default {
 
         const recommendationsLayer = new VectorLayer({
             source: recommendationsSource,
-            style: recommendationsStyle,
-        })
-
-        // Style, Source and Layer for Search Results
-        const searchStyle = new Style({
-            image: new Icon({
-                scale: 0.8,
-                anchor: [0.5, 42],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                src: './map-marker_red.png',
-            }),
+            style: featureStyle,
         })
 
         const searchSource = store.state.searchFeatures
 
         const searchLayer = new VectorLayer({
             source: searchSource,
-            style: searchStyle,
+            style: featureStyle,
         })
 
         // Style, Source and Layer for final Route

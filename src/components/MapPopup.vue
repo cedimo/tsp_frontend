@@ -3,7 +3,7 @@
         <v-card-title class="pa-0 pb-2">
             {{ feature.get('name') }}
         </v-card-title>
-        <v-btn rounded class="text-none" @click="removeFeature"
+        <v-btn rounded class="primary text-none" @click="removeFeature"
             >Entfernen</v-btn
         >
     </v-card>
