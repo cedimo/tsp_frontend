@@ -5,13 +5,7 @@ Vue.use(Vuetify)
 
 export default new Vuetify({
     breakpoint: {
-        thresholds: {
-            xs: 1000,
-            sm: 1000,
-            md: 1000,
-            lg: 1000,
-            // xl breakpoint for bigger devices,
-        },
+        mobileBreakpoint: 1000,
     },
     theme: {
         options: { customProperties: true },

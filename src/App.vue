@@ -9,17 +9,13 @@
             </div>
 
             <div
-                v-if="$vuetify.breakpoint.xl"
-                class="recommendations-scroll-container clickable"
-            >
-                <RecommendationScroll />
-            </div>
-
-            <div
-                v-if="$vuetify.breakpoint.xs"
+                v-if="$vuetify.breakpoint.mobile"
                 class="recommendations-slide-container clickable"
             >
                 <RecommendationSlider />
+            </div>
+            <div v-else class="recommendations-scroll-container clickable">
+                <RecommendationScroll />
             </div>
         </div>
 
