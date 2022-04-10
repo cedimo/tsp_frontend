@@ -4,6 +4,11 @@
         <div ref="popup">
             <MapPopup :feature="popupFeature" />
         </div>
+        <div ref="tooltip">
+            <v-card v-if="tooltipVisible" class="tooltip">
+                {{ tooltipText }}
+            </v-card>
+        </div>
     </div>
 </template>
 
@@ -27,17 +32,21 @@ export default {
     data() {
         return {
             popupFeature: new Feature(),
+            tooltipVisible: false,
+            tooltipText: '',
         }
     },
     mounted() {
-        // popup
         const popup = this.$refs['popup']
         const popupOverlay = new Overlay({
             element: popup,
-            autoPan: true,
-            autoPanAnimation: {
-                duration: 250,
-            },
+            positioning: 'top-center',
+        })
+
+        const tooltip = this.$refs['tooltip']
+        const tooltipOverlay = new Overlay({
+            element: tooltip,
+            positioning: 'top-center',
         })
 
         const osmLayer = new TileLayer({
@@ -128,27 +137,32 @@ export default {
             target: this.$refs['map'],
             layers: [osmLayer, routeLayer, recommendationsLayer, searchLayer],
             view: mannheimView,
-            overlays: [popupOverlay],
+            overlays: [popupOverlay, tooltipOverlay],
         })
 
         map.on('click', event => {
-            const feature = map.forEachFeatureAtPixel(
-                event.pixel,
-                clickedFeature => {
-                    return clickedFeature
+            store.commit('hidePopup')
+            map.forEachFeatureAtPixel(event.pixel, feature => {
+                if (feature.get('name')) {
+                    this.popupFeature = feature
+                    const featureCoords = feature.getGeometry().getCoordinates()
+                    store.commit('setMapCenter', featureCoords)
+                    popupOverlay.setPosition(featureCoords)
+                    store.commit('showPopup')
                 }
-            )
+            })
+        })
 
-            // check if a feature and if it's a Marker/Point (and not the route)
-            if (feature && feature.get('name')) {
-                this.popupFeature = feature
-                const featureCoords = feature.getGeometry().getCoordinates()
-                store.commit('setMapCenter', featureCoords)
-                popupOverlay.setPosition(featureCoords)
-                store.commit('showPopup')
-            } else {
-                store.commit('hidePopup')
-            }
+        map.on('pointermove', event => {
+            this.tooltipVisible = false
+            map.forEachFeatureAtPixel(event.pixel, feature => {
+                if (feature.get('name')) {
+                    this.tooltipText = feature.get('name')
+                    this.tooltipVisible = true
+                    const featureCoords = feature.getGeometry().getCoordinates()
+                    tooltipOverlay.setPosition(featureCoords)
+                }
+            })
         })
     },
 }
@@ -174,5 +188,13 @@ export default {
     top: unset;
     right: 8px;
     bottom: 40px;
+}
+
+.tooltip {
+    opacity: 0.75;
+    padding: 4px;
+    margin-top: 4px;
+    color: white !important;
+    background: grey !important;
 }
 </style>
