@@ -41,7 +41,7 @@ export default {
 }
 
 .recommendation-card {
-    width: 200px;
+    width: 250px;
 }
 
 .recommendation-card + .recommendation-card {
