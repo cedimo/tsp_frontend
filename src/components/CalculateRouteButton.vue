@@ -1,6 +1,14 @@
 <template>
     <v-btn
-        v-bind="$attrs"
+        v-if="$vuetify.breakpoint.mobile"
+        fab
+        class="success"
+        @click="onButtonClick"
+    >
+        <v-icon>mdi-transit-connection-variant</v-icon>
+    </v-btn>
+    <v-btn
+        v-else
         rounded
         x-large
         class="success white--text text-none"
@@ -15,6 +23,7 @@
 import { store } from '@/store'
 import { toLonLat } from 'ol/proj'
 import GeoJSON from 'ol/format/GeoJSON'
+
 export default {
     name: 'CalculateRouteButton',
     data() {
