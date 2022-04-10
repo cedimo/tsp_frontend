@@ -3,6 +3,7 @@
         v-if="$vuetify.breakpoint.mobile"
         fab
         class="success"
+        :loading="loading"
         @click="onButtonClick"
     >
         <v-icon>mdi-transit-connection-variant</v-icon>
