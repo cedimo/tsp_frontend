@@ -34,8 +34,8 @@
 import Map from './components/Map.vue'
 import CalculateRouteButton from './components/CalculateRouteButton.vue'
 import SearchField from '@/components/SearchField'
-import RecommendationScroll from '@/components/groups/RecommendationScroll'
-import RecommendationSlider from '@/components/groups/RecommendationSlider'
+import RecommendationScroll from '@/components/RecommendationScroll'
+import RecommendationSlider from '@/components/RecommendationSlider'
 
 export default {
     name: 'App',
