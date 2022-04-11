@@ -49,6 +49,30 @@ export default {
         CalculateRouteButton,
         SearchField,
     },
+
+    data() {
+        return {
+            windowHeight: window.innerHeight,
+        }
+    },
+
+    mounted() {
+        const doc = document.documentElement
+        doc.style.setProperty('--app-height', `${this.windowHeight}px`)
+        window.addEventListener('resize', this.onResize)
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.onResize)
+    },
+
+    methods: {
+        onResize() {
+            this.windowHeight = window.innerHeight
+            const doc = document.documentElement
+            doc.style.setProperty('--app-height', `${this.windowHeight}px`)
+        },
+    },
 }
 </script>
 
@@ -62,6 +86,7 @@ html {
     pointer-events: none;
     position: absolute;
     height: 100%;
+    height: var(--app-height);
     width: 100%;
     display: flex;
     flex-direction: column;

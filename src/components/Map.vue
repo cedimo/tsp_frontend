@@ -25,6 +25,7 @@ import Overlay from 'ol/Overlay'
 import { store } from '@/store'
 import MapPopup from '@/components/MapPopup'
 import Feature from 'ol/Feature'
+import { defaults } from 'ol/interaction'
 
 export default {
     name: 'Map',
@@ -127,6 +128,10 @@ export default {
             layers: [osmLayer, routeLayer, recommendationsLayer, searchLayer],
             view: mannheimView,
             overlays: [popupOverlay, tooltipOverlay],
+            interactions: defaults({
+                altShiftDragRotate: false,
+                pinchRotate: false,
+            }),
         })
 
         map.on('click', event => {
