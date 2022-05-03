@@ -2,6 +2,7 @@
 <template>
     <v-text-field
         v-model="input"
+        hide-details
         label="Ort/Adresse suchen"
         placeholder="Ort/Adresse suchen"
         solo
