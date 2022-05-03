@@ -56,7 +56,7 @@ export default {
                 attributions:
                     '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, ' +
                     '&copy; <a href="https://openmaptiles.org/">OpenMapTiles</a>, ' +
-                    '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+                    '&copy; <a href="http://openstreetmap.org">OpenStreetMap contributors</a>',
             }),
         })
 
